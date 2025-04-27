@@ -146,8 +146,8 @@
   "navbar": {
     "primary": {
       "type": "button",
-      "label": "Login to Flipt Cloud",
-      "href": "https://flipt.cloud/login"
+      "label": "Get Started",
+      "href": "https://www.zibird.com/zh-CN"
     }
   },
   "logo": {

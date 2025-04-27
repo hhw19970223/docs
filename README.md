@@ -6,3 +6,6 @@
 
 ## 配置中心
 > https://dashboard.mintlify.com/hc-2ade1025/hc-2ade1025
+
+## 本地启动
+> mintlify dev
