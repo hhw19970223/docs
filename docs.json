@@ -1,102 +1,170 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "ZiBird",
+  "description": "ZiBird",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#6c4aff",
+    "light": "#876bff",
+    "dark": "#5129ff"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
+  "icons": {
+    "library": "lucide"
+  },
+  "banner": {
+    "content": "🚀 Banner is live! [Learn more](mintlify.com)",
+    "dismissible": true
+  },
+  "background": {
+    "image": "/images/background.png",
+    "color": {
+      "dark": "#121212"
+    }
+  },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Guides",
-        "groups": [
+        "language": "en",
+        "global": {
+          "anchors": [
+            {
+              "anchor": "Blog",
+              "href": "https://mintlify.com/blog",
+              "icon": "newspaper"
+            }
+          ]
+        },
+        "tabs": [
           {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quickstart",
-              "development"
+            "tab": "Docs",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "en/docs/introduction",
+                  "en/docs/quickstart",
+                  "en/docs/development"
+                ]
+              },
+              {
+                "group": "Essentials",
+                "pages": [
+                  "en/docs/normal/markdown",
+                  "en/docs/normal/code",
+                  "en/docs/normal/images",
+                  "en/docs/normal/settings",
+                  "en/docs/normal/navigation",
+                  "en/docs/normal/reusable-snippets"
+                ]
+              }
             ]
           },
           {
-            "group": "Essentials",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+            "tab": "API",
+            "groups": [
+              {
+                "group": "API Documentation",
+                "pages": [
+                  "en/api/introduction"
+                ]
+              },
+              {
+                "group": "Endpoint Examples",
+                "pages": [
+                  "en/api/endpoint/get",
+                  "en/api/endpoint/create",
+                  "en/api/endpoint/delete",
+                  "en/api/endpoint/webhook"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
-        "groups": [
+        "language": "zh",
+        "global": {
+          "anchors": [
+            {
+              "anchor": "博客",
+              "href": "https://mintlify.com/blog",
+              "icon": "newspaper"
+            }
+          ]
+        },
+        "tabs": [
           {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
+            "tab": "文档",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "zh/docs/introduction",
+                  "zh/docs/quickstart",
+                  "zh/docs/development"
+                ]
+              },
+              {
+                "group": "Essentials",
+                "pages": [
+                  "zh/docs/normal/markdown",
+                  "zh/docs/normal/code",
+                  "zh/docs/normal/images",
+                  "zh/docs/normal/settings",
+                  "zh/docs/normal/navigation",
+                  "zh/docs/normal/reusable-snippets"
+                ]
+              }
             ]
           },
           {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+            "tab": "接口",
+            "icon": "file-json",
+            "groups": [
+              {
+                "group": "API Documentation",
+                "pages": [
+                  "zh/api/introduction"
+                ]
+              },
+              {
+                "group": "normal",
+                "pages": [
+                  "zh/api/normal/get-plants",
+                  "zh/api/normal/post-plants",
+                  "zh/api/normal/delete-plants",
+                  "zh/api/normal/plantwebhook"
+                ]
+              }
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+    ]
+  },
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Login to Flipt Cloud",
+      "href": "https://flipt.cloud/login"
     }
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://www.zibird.com/zh-CN"
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+  "api": {
+    "mdx": {
+      "auth": {
+        "method": "bearer"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
     }
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+  "seo": {
+    "metatags": {
+      "og:image": "/images/favicon.png"
     }
   }
 }
