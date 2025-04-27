@@ -13,7 +13,7 @@
     "library": "lucide"
   },
   "banner": {
-    "content": "🚀 Banner is live! [Learn more](mintlify.com)",
+    "content": "🚀 Banner is live! [Learn more](https://test-www.zibird.com/zh-CN/blog)",
     "dismissible": true
   },
   "background": {
@@ -26,15 +26,6 @@
     "languages": [
       {
         "language": "en",
-        "global": {
-          "anchors": [
-            {
-              "anchor": "Blog",
-              "href": "https://mintlify.com/blog",
-              "icon": "newspaper"
-            }
-          ]
-        },
         "tabs": [
           {
             "tab": "Docs",
@@ -84,15 +75,6 @@
       },
       {
         "language": "zh",
-        "global": {
-          "anchors": [
-            {
-              "anchor": "博客",
-              "href": "https://mintlify.com/blog",
-              "icon": "newspaper"
-            }
-          ]
-        },
         "tabs": [
           {
             "tab": "文档",
@@ -144,16 +126,22 @@
     ]
   },
   "navbar": {
+    "links": [
+      {
+        "label": "Blog",
+        "href": "https://test-www.zibird.com/zh-CN/blog"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Get Started",
-      "href": "https://www.zibird.com/zh-CN"
+      "href": "https://www.zibird.com"
     }
   },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg",
-    "href": "https://www.zibird.com/zh-CN"
+    "href": "https://www.zibird.com"
   },
   "api": {
     "mdx": {
