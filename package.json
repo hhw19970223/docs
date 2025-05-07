@@ -10,7 +10,9 @@
     "ora": "^8.2.0"
   },
   "scripts": {
-    "dev": "concurrently \"node srcipt/dev.mjs\" \"mintlify dev\"",
-    "build": "node srcipt/gen.mjs"
+    "dev": "mintlify dev",
+    "build": "node srcipt/gen.mjs",
+    "start": "concurrently \"node srcipt/dev.mjs\" \"mintlify dev\"",
+    "build-run": "node mint/apps/client/server.js"
   }
 }

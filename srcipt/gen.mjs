@@ -20,10 +20,10 @@ import ora from "ora";
 // 在根目录下执行命令
 const contentDirectoryPath = resolve('./');//项目绝对路径
 const gen_path = join(contentDirectoryPath, './mint');//最后存放地址
-const TAR_PATH = join(gen_path, './mint.tar.gz');
-const docs_path = join(gen_path, './apps/client/src');//最后存放地址
-const TAR_URL = 'https://mint-releases.b-cdn.net/mint-0.0.1131.tar.gz';
-const TARGET_MINT_VERSION = 'v0.0.1131';
+const TAR_PATH = join(contentDirectoryPath, './mint.tar.gz');
+const docs_path = join(gen_path, './apps/client');//最后存放地址
+const TAR_URL = 'https://mint-releases.b-cdn.net/mint-0.0.1165.tar.gz';
+const TARGET_MINT_VERSION = 'v0.0.1165';
 
 main();
 async function main() {
@@ -90,6 +90,10 @@ async function main() {
     snippetV2Filenames: snippetsV2,
     docsConfigPath: join(contentDirectoryPath, 'docs.json'),
   });
+  if (await folderExists(join(docs_path, './public/mint'))) {
+    await deleteFolderRecursive(join(docs_path, './public/mint'));
+  }
+ 
   spinner.succeed(chalk.bgGreen('打包完成'));
 }
 async function deleteFolderRecursive(folderPath) {
