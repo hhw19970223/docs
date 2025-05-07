@@ -1,0 +1,16 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "chalk": "^5.4.1",
+    "concurrently": "^9.1.2",
+    "got": "^14.4.7",
+    "mintlify": "^4.0.523",
+    "ora": "^8.2.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"node srcipt/dev.mjs\" \"mintlify dev\"",
+    "build": "node srcipt/gen.mjs"
+  }
+}
