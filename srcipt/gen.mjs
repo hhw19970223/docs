@@ -93,6 +93,8 @@ async function main() {
   if (await folderExists(join(docs_path, './public/mint'))) {
     await deleteFolderRecursive(join(docs_path, './public/mint'));
   }
+
+  await fse.copyFileSync(join(contentDirectoryPath, './srcipt/server.js'), join(docs_path, './server.js'));
  
   spinner.succeed(chalk.bgGreen('打包完成'));
 }
