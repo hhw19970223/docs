@@ -9,3 +9,7 @@
 
 ## 本地启动
 > mintlify dev
+
+## 使用的是lucide 的icon库
+> https://lucide.dev/icons/
+> https://mintlify.b-cdn.net/v6.6.0/lucide/activity.svg

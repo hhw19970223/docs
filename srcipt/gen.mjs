@@ -1,12 +1,7 @@
 import { categorizeFilePaths, update } from '@mintlify/prebuild';
 import {
-  readdir,
   rmdir,
-  stat,
   access,
-  mkdir,
-  unlink,
-  copyFile
 } from 'fs/promises';
 import { join, resolve } from 'path';
 import { exec } from 'child_process';
@@ -90,33 +85,16 @@ async function main() {
     snippetV2Filenames: snippetsV2,
     docsConfigPath: join(contentDirectoryPath, 'docs.json'),
   });
-  if (await folderExists(join(docs_path, './public/mint'))) {
-    await deleteFolderRecursive(join(docs_path, './public/mint'));
+
+  const mint_path = join(docs_path, './public/mint');
+  if (await folderExists(mint_path)) {
+    fse.emptyDirSync(mint_path);
+    await rmdir(mint_path);
   }
 
-  await fse.copyFileSync(join(contentDirectoryPath, './srcipt/server.js'), join(docs_path, './server.js'));
+  await fse.copyFileSync(join(contentDirectoryPath, './srcipt/server.cjs'), join(docs_path, './server.js'));
  
   spinner.succeed(chalk.bgGreen('打包完成'));
-}
-async function deleteFolderRecursive(folderPath) {
-  try {
-    const files = await readdir(folderPath);
-
-    for (const file of files) {
-      const filePath = join(folderPath, file);
-      const stats = await stat(filePath);
-
-      if (stats.isDirectory()) {
-        await deleteFolderRecursive(filePath);
-      } else {
-        await unlink(filePath);
-      }
-    }
-
-    await rmdir(folderPath);
-  } catch (err) {
-    outputErr('Error deleting folder:', err);
-  }
 }
 
 export function outputErr(...args) {
@@ -188,24 +166,6 @@ export function skyBlue(str) {
 
 export function green(str) {
   return '\u001B[32m' + str + '\u001B[0m';
-}
-
-async function mergeDirectories(srcDir, destDir) {
-  await mkdir(destDir, { recursive: true });
-  const entries = await readdir(srcDir, { withFileTypes: true });
-
-  for (const entry of entries) {
-    const srcPath = join(srcDir, entry.name);
-    const destPath = join(destDir, entry.name);
-
-    if (entry.isDirectory()) {
-      // 递归合并子文件夹
-      await mergeDirectories(srcPath, destPath);
-    } else if (entry.isFile()) {
-      // 覆盖复制文件
-      await copyFile(srcPath, destPath);
-    }
-  }
 }
 
 function createSpinner(opt) {
