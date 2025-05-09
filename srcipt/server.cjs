@@ -1,14 +1,4 @@
 const port = process.argv?.[2];
-const key = process.argv?.[3];
-const cert = process.argv?.[4];
-
-const cfg = {};
-if (key && cert) {
-  cfg.selfSignedCertificate = {
-    key,
-    cert,
-  };
-}
 
 performance.mark('next-start');
 import path from 'path'
@@ -49,8 +39,7 @@ startServer({
   hostname,
   port: currentPort,
   allowRetry: false,
-  keepAliveTimeout,
-  ...cfg
+  keepAliveTimeout
 }).catch((err) => {
   console.error(err);
   process.exit(1);

@@ -1,23 +1,4 @@
 
-onLoad('https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.js');
-function onLoad(url, times = 2) {
-  const script = document.createElement('script'); 
-
-  script.src = url;
-  script.onload = () => {
-    document.head.removeChild(script);
-  };
-
-  script.onerror = () => {
-    document.head.removeChild(script);
-    if (times > 0) {
-      onLoad(times - 1);
-    }
-  };
-
-  document.head.appendChild(script);
-}
-
 if (window.self !== window.top) {
   const style = document.createElement('style');
   style.innerHTML = `
@@ -93,41 +74,3 @@ if (window.self !== window.top) {
     `;
   document.head.appendChild(style);
 }
-
-
-//window.postMessage({ dentity: 'ls', Authorization: '123' })
-window.addEventListener('message', (e) => {
-  const data = e?.data;
-  if (data?.dentity === 'ls' && window.CryptoJS?.AES) {
-    const Authorization = data?.Authorization;
-    const match = document.cookie.match(/(?:^|;\s*)mintlify-auth-key=([^;]*)/);
-    if (match?.[1]) {
-      console.log('Authorization', Authorization);
-      const key =  match[1];
-      let obj = loadEncrypted(key);
-      if (obj?.header) {
-        obj.header.Authorization = Authorization;
-        storeEncrypted(key, obj);
-      }
-    }
-  }
-})
-
-function storeEncrypted(key, value) {
-  const stringifiedValue = JSON.stringify(value);
-  const encryptedValue = window.CryptoJS.AES.encrypt(stringifiedValue, key).toString();
-  localStorage.setItem('mintlify-auth', encryptedValue);
-}
-
-function loadEncrypted(key) {
-  const encryptedString = localStorage.getItem('mintlify-auth');
-  if (encryptedString != null) {
-    try {
-      const decryptedString = window.CryptoJS.AES.decrypt(encryptedString, key).toString(window.CryptoJS.enc.Utf8);
-      const decryptedValue = JSON.parse(decryptedString);
-      return decryptedValue;
-    } catch (e) {
-      console.log(`unable to decrypt stored credentials: ${e}`);
-    }
-  }
-}            

@@ -13,6 +13,6 @@
     "dev": "mintlify dev",
     "build": "node srcipt/gen.mjs",
     "start": "concurrently \"node srcipt/dev.mjs\" \"mintlify dev\"",
-    "build-run": "node mint/apps/client/server.js"
+    "build-run": "node mint/apps/client/server.js 4000"
   }
 }

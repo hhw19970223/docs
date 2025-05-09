@@ -2,7 +2,12 @@ import { categorizeFilePaths, update } from '@mintlify/prebuild';
 import {
   rmdir,
   access,
+  readdir,
 } from 'fs/promises';
+import {
+  writeFileSync,
+  readFileSync,
+} from "node:fs";
 import { join, resolve } from 'path';
 import { exec } from 'child_process';
 import { pipeline } from 'node:stream/promises';
@@ -15,10 +20,12 @@ import ora from "ora";
 // 在根目录下执行命令
 const contentDirectoryPath = resolve('./');//项目绝对路径
 const gen_path = join(contentDirectoryPath, './mint');//最后存放地址
-const TAR_PATH = join(contentDirectoryPath, './mint.tar.gz');
+const TAR_PATH = join(contentDirectoryPath, './tar/mint.tar.gz');
 const docs_path = join(gen_path, './apps/client');//最后存放地址
 const TAR_URL = 'https://mint-releases.b-cdn.net/mint-0.0.1165.tar.gz';
 const TARGET_MINT_VERSION = 'v0.0.1165';
+const inText = '"subdomain": "docs.hhw31.com","actualSubdomain": "hc-2ade1025","trieve": {"datasetId": "236e3901-9a2c-46db-9c07-13723d537375"},';
+const apiKey = 'tr-Ef0O1GG473PDFHfclCabtti5n0mHNolw';
 
 main();
 async function main() {
@@ -36,19 +43,24 @@ async function main() {
   if (shouldDownload) {
     fse.emptyDirSync(gen_path);
     try {
-      const spinner = createSpinner({
-        color: "green",
-        text: chalk.blue('开始下载资源包，请稍等'),
-      });
-      spinner.start();
-      await pipeline(got.stream(TAR_URL), fse.createWriteStream(TAR_PATH));
-      spinner.succeed(chalk.bgGreen('资源包下载完成'));
+      if (await folderExists(TAR_PATH)) {
+        // 不处理
+      } else {
+        const spinner = createSpinner({
+          color: "green",
+          text: chalk.blue('开始下载资源包，请稍等'),
+        });
+        spinner.start();
+        await pipeline(got.stream(TAR_URL), fse.createWriteStream(TAR_PATH));
+        spinner.succeed(chalk.bgGreen('资源包下载完成'));
+      }
+      
     } catch (error) {
       console.error(error);
       spinner.fail(chalk.bgRed('资源包下载失败'));
       process.exit(1);
     }
-    
+
     try {
       const spinner = createSpinner({
         color: "green",
@@ -60,15 +72,13 @@ async function main() {
         file: TAR_PATH,
         cwd: './',
       });
-  
-      fse.removeSync(TAR_PATH);
+
+      // fse.removeSync(TAR_PATH);
       fse.writeFileSync(VERSION_PATH, TARGET_MINT_VERSION);
       spinner.succeed(chalk.bgGreen('资源包解压完成'));
-      spinner.stop();
     } catch (error) {
       console.error(error);
       spinner.fail(chalk.bgRed('资源包解压失败'));
-      spinner.stop();
       process.exit(1);
     }
   }
@@ -92,9 +102,70 @@ async function main() {
     await rmdir(mint_path);
   }
 
+  const tar_path = join(docs_path, './public/tar');
+  if (await folderExists(tar_path)) {
+    fse.emptyDirSync(tar_path);
+    await rmdir(tar_path);
+  }
+
   await fse.copyFileSync(join(contentDirectoryPath, './srcipt/server.cjs'), join(docs_path, './server.js'));
- 
+
+  try {
+    //骚操作
+    const spinner = createSpinner({
+      color: "green",
+      text: chalk.blue('开始执行骚操作'),
+    });
+    spinner.start();
+    const chunks_path = join(docs_path, './.next/static/chunks');
+    const files = await readdir(chunks_path);
+    for (const file of files) {
+      const match = file.match(/^webpack-(.+?)\.js$/);
+      if (match?.[1]) {
+        const webpack_file = join(chunks_path, file);
+        console.log(webpack_file);
+        const content = readFileSync(webpack_file, 'utf-8');
+    
+        const flag = content.includes('window.injectSrcipt');
+        if (!flag) {
+          const arr = content.split('}()');
+          arr[arr.length - 2] = arr[arr.length - 2] + '; window.injectSrcipt = i;'
+      
+          const newContent = arr.join('}()');
+          writeFileSync(webpack_file, newContent, 'utf-8');
+        }
+      } else {
+        const match = file.match(/(.+?)\.js$/);
+        if (match?.[1]) {
+          const file_path = join(chunks_path, file);
+          const content = readFileSync(file_path, 'utf-8');
+          if (content.includes('y.F9.TRIEVE_API_KEY') && !content.includes(`y.F9.TRIEVE_API_KEY||"${apiKey}"`)) {
+            const arr = content.split('y.F9.TRIEVE_API_KEY');
+            const newContent = arr.join(`y.F9.TRIEVE_API_KEY||"${apiKey}"`);
+            writeFileSync(file_path, newContent, 'utf-8');
+          }
+        }
+      }
+    }
+
+    const temp_file = join(docs_path, './.next/server/pages/[[...slug]].js');
+    const content = readFileSync(temp_file, 'utf-8');
+    const flag = content.includes(inText);
+    if (!flag) {
+      const arr = content.split('/browserconfig.xml"},');
+      const newContent = arr.join('/browserconfig.xml"},' + inText);
+      writeFileSync(temp_file, newContent, 'utf-8');
+    }
+
+
+    spinner.succeed(chalk.bgGreen('骚操完成'));
+  } catch (error) {
+    console.error(error);
+    spinner.fail(chalk.bgRed('骚操作失败'));
+  }
+
   spinner.succeed(chalk.bgGreen('打包完成'));
+  process.exit(0);
 }
 
 export function outputErr(...args) {
