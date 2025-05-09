@@ -68,6 +68,15 @@
                   "en/api/endpoint/delete",
                   "en/api/endpoint/webhook"
                 ]
+              },
+              {
+                "group": "DeepSeek",
+                "pages": [
+                  "en/api/deepseek/create-chat-completion",
+                  "en/api/deepseek/create-fim-completion-beta",
+                  "en/api/deepseek/lists-models",
+                  "en/api/deepseek/get-user-balance"
+                ]
               }
             ]
           }
@@ -145,9 +154,7 @@
   },
   "api": {
     "mdx": {
-      "auth": {
-        "method": "bearer"
-      }
+      "auth": {}
     }
   },
   "seo": {

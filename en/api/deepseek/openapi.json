@@ -1,0 +1,973 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DeepSeek API",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/chat/completions": {
+      "post": {
+        "summary": "Create Chat Completion",
+        "deprecated": false,
+        "description": "Creates a model response for the given chat conversation.",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer {{API_KEY}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "content": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "content",
+                        "role"
+                      ]
+                    }
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "frequency_penalty": {
+                    "type": "integer"
+                  },
+                  "max_tokens": {
+                    "type": "integer"
+                  },
+                  "presence_penalty": {
+                    "type": "integer"
+                  },
+                  "response_format": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  },
+                  "stop": {
+                    "type": "null"
+                  },
+                  "stream": {
+                    "type": "boolean"
+                  },
+                  "stream_options": {
+                    "type": "null"
+                  },
+                  "temperature": {
+                    "type": "integer"
+                  },
+                  "top_p": {
+                    "type": "integer"
+                  },
+                  "tools": {
+                    "type": "null"
+                  },
+                  "tool_choice": {
+                    "type": "string"
+                  },
+                  "logprobs": {
+                    "type": "boolean"
+                  },
+                  "top_logprobs": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "messages",
+                  "model",
+                  "frequency_penalty",
+                  "max_tokens",
+                  "presence_penalty",
+                  "response_format",
+                  "stop",
+                  "stream",
+                  "stream_options",
+                  "temperature",
+                  "top_p",
+                  "tools",
+                  "tool_choice",
+                  "logprobs",
+                  "top_logprobs"
+                ]
+              },
+              "example": {
+                "messages": [
+                  {
+                    "content": "You are a helpful assistant",
+                    "role": "system"
+                  },
+                  {
+                    "content": "Hi",
+                    "role": "user"
+                  }
+                ],
+                "model": "deepseek-chat",
+                "frequency_penalty": 0,
+                "max_tokens": 2048,
+                "presence_penalty": 0,
+                "response_format": {
+                  "type": "text"
+                },
+                "stop": null,
+                "stream": false,
+                "stream_options": null,
+                "temperature": 1,
+                "top_p": 1,
+                "tools": null,
+                "tool_choice": "none",
+                "logprobs": false,
+                "top_logprobs": null
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK, returns a `chat completion object`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "finish_reason": {
+                            "type": "string"
+                          },
+                          "index": {
+                            "type": "integer"
+                          },
+                          "message": {
+                            "type": "object",
+                            "properties": {
+                              "content": {
+                                "type": "string"
+                              },
+                              "reasoning_content": {
+                                "type": "string"
+                              },
+                              "tool_calls": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "function": {
+                                      "type": "object",
+                                      "properties": {
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "arguments": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "name",
+                                        "arguments"
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              "role": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "content",
+                              "reasoning_content",
+                              "tool_calls",
+                              "role"
+                            ]
+                          },
+                          "logprobs": {
+                            "type": "object",
+                            "properties": {
+                              "content": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "token": {
+                                      "type": "string"
+                                    },
+                                    "logprob": {
+                                      "type": "integer"
+                                    },
+                                    "bytes": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "integer"
+                                      }
+                                    },
+                                    "top_logprobs": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "token": {
+                                            "type": "string"
+                                          },
+                                          "logprob": {
+                                            "type": "integer"
+                                          },
+                                          "bytes": {
+                                            "type": "array",
+                                            "items": {
+                                              "type": "integer"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "required": [
+                              "content"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "created": {
+                      "type": "integer"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "system_fingerprint": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "completion_tokens": {
+                          "type": "integer"
+                        },
+                        "prompt_tokens": {
+                          "type": "integer"
+                        },
+                        "prompt_cache_hit_tokens": {
+                          "type": "integer"
+                        },
+                        "prompt_cache_miss_tokens": {
+                          "type": "integer"
+                        },
+                        "total_tokens": {
+                          "type": "integer"
+                        },
+                        "completion_tokens_details": {
+                          "type": "object",
+                          "properties": {
+                            "reasoning_tokens": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "reasoning_tokens"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "completion_tokens",
+                        "prompt_tokens",
+                        "prompt_cache_hit_tokens",
+                        "prompt_cache_miss_tokens",
+                        "total_tokens",
+                        "completion_tokens_details"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "choices",
+                    "created",
+                    "model",
+                    "system_fingerprint",
+                    "object",
+                    "usage"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "string",
+                      "choices": [
+                        {
+                          "finish_reason": "stop",
+                          "index": 0,
+                          "message": {
+                            "content": "string",
+                            "reasoning_content": "string",
+                            "tool_calls": [
+                              {
+                                "id": "string",
+                                "type": "function",
+                                "function": {
+                                  "name": "string",
+                                  "arguments": "string"
+                                }
+                              }
+                            ],
+                            "role": "assistant"
+                          },
+                          "logprobs": {
+                            "content": [
+                              {
+                                "token": "string",
+                                "logprob": 0,
+                                "bytes": [
+                                  0
+                                ],
+                                "top_logprobs": [
+                                  {
+                                    "token": "string",
+                                    "logprob": 0,
+                                    "bytes": [
+                                      0
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "created": 0,
+                      "model": "string",
+                      "system_fingerprint": "string",
+                      "object": "chat.completion",
+                      "usage": {
+                        "completion_tokens": 0,
+                        "prompt_tokens": 0,
+                        "prompt_cache_hit_tokens": 0,
+                        "prompt_cache_miss_tokens": 0,
+                        "total_tokens": 0,
+                        "completion_tokens_details": {
+                          "reasoning_tokens": 0
+                        }
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "string",
+                      "choices": [
+                        {
+                          "index": 0,
+                          "delta": {
+                            "content": "string",
+                            "role": "string"
+                          },
+                          "finish_reason": null,
+                          "logprobs": null
+                        }
+                      ],
+                      "created": 0,
+                      "model": "string",
+                      "system_fingerprint": "string",
+                      "object": "string",
+                      "usage": null
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200: Success": {
+            "description": "OK, returns a streamed sequence of `chat completion chunk` objects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "index": {
+                            "type": "integer"
+                          },
+                          "delta": {
+                            "type": "object",
+                            "properties": {
+                              "content": {
+                                "type": "string"
+                              },
+                              "role": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "content",
+                              "role"
+                            ]
+                          },
+                          "finish_reason": {
+                            "type": "null"
+                          },
+                          "logprobs": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    },
+                    "created": {
+                      "type": "integer"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "system_fingerprint": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "choices",
+                    "created",
+                    "model",
+                    "system_fingerprint",
+                    "object",
+                    "usage"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/beta/completions": {
+      "post": {
+        "summary": "Create FIM Completion (Beta)",
+        "deprecated": false,
+        "description": "The FIM (Fill-In-the-Middle) Completion API. User must set `base_url=\"https://api.deepseek.com/beta\"` to use this feature.",
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer {{API_KEY}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "model": {
+                    "type": "string"
+                  },
+                  "prompt": {
+                    "type": "string"
+                  },
+                  "echo": {
+                    "type": "boolean"
+                  },
+                  "frequency_penalty": {
+                    "type": "integer"
+                  },
+                  "logprobs": {
+                    "type": "integer"
+                  },
+                  "max_tokens": {
+                    "type": "integer"
+                  },
+                  "presence_penalty": {
+                    "type": "integer"
+                  },
+                  "stop": {
+                    "type": "null"
+                  },
+                  "stream": {
+                    "type": "boolean"
+                  },
+                  "stream_options": {
+                    "type": "null"
+                  },
+                  "suffix": {
+                    "type": "null"
+                  },
+                  "temperature": {
+                    "type": "integer"
+                  },
+                  "top_p": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "model",
+                  "prompt",
+                  "echo",
+                  "frequency_penalty",
+                  "logprobs",
+                  "max_tokens",
+                  "presence_penalty",
+                  "stop",
+                  "stream",
+                  "stream_options",
+                  "suffix",
+                  "temperature",
+                  "top_p"
+                ]
+              },
+              "example": {
+                "model": "deepseek-chat",
+                "prompt": "Once upon a time, ",
+                "echo": false,
+                "frequency_penalty": 0,
+                "logprobs": 0,
+                "max_tokens": 1024,
+                "presence_penalty": 0,
+                "stop": null,
+                "stream": false,
+                "stream_options": null,
+                "suffix": null,
+                "temperature": 1,
+                "top_p": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "finish_reason": {
+                            "type": "string"
+                          },
+                          "index": {
+                            "type": "integer"
+                          },
+                          "logprobs": {
+                            "type": "object",
+                            "properties": {
+                              "text_offset": {
+                                "type": "array",
+                                "items": {
+                                  "type": "integer"
+                                }
+                              },
+                              "token_logprobs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "integer"
+                                }
+                              },
+                              "tokens": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "top_logprobs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {}
+                                }
+                              }
+                            },
+                            "required": [
+                              "text_offset",
+                              "token_logprobs",
+                              "tokens",
+                              "top_logprobs"
+                            ]
+                          },
+                          "text": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "created": {
+                      "type": "integer"
+                    },
+                    "model": {
+                      "type": "string"
+                    },
+                    "system_fingerprint": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "completion_tokens": {
+                          "type": "integer"
+                        },
+                        "prompt_tokens": {
+                          "type": "integer"
+                        },
+                        "prompt_cache_hit_tokens": {
+                          "type": "integer"
+                        },
+                        "prompt_cache_miss_tokens": {
+                          "type": "integer"
+                        },
+                        "total_tokens": {
+                          "type": "integer"
+                        },
+                        "completion_tokens_details": {
+                          "type": "object",
+                          "properties": {
+                            "reasoning_tokens": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "reasoning_tokens"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "completion_tokens",
+                        "prompt_tokens",
+                        "prompt_cache_hit_tokens",
+                        "prompt_cache_miss_tokens",
+                        "total_tokens",
+                        "completion_tokens_details"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "choices",
+                    "created",
+                    "model",
+                    "system_fingerprint",
+                    "object",
+                    "usage"
+                  ]
+                },
+                "example": {
+                  "id": "string",
+                  "choices": [
+                    {
+                      "finish_reason": "stop",
+                      "index": 0,
+                      "logprobs": {
+                        "text_offset": [
+                          0
+                        ],
+                        "token_logprobs": [
+                          0
+                        ],
+                        "tokens": [
+                          "string"
+                        ],
+                        "top_logprobs": [
+                          {}
+                        ]
+                      },
+                      "text": "string"
+                    }
+                  ],
+                  "created": 0,
+                  "model": "string",
+                  "system_fingerprint": "string",
+                  "object": "text_completion",
+                  "usage": {
+                    "completion_tokens": 0,
+                    "prompt_tokens": 0,
+                    "prompt_cache_hit_tokens": 0,
+                    "prompt_cache_miss_tokens": 0,
+                    "total_tokens": 0,
+                    "completion_tokens_details": {
+                      "reasoning_tokens": 0
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/models": {
+      "get": {
+        "summary": "Lists Models",
+        "deprecated": false,
+        "description": "Lists the currently available models, and provides basic information about each one such as the owner and availability. Check [Models & Pricing](https://api-docs.deepseek.com/quick_start/pricing) for our currently supported models.",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer {{API_KEY}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK, return to the model list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "object": {
+                            "type": "string"
+                          },
+                          "owned_by": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "object",
+                          "owned_by"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "object": "list",
+                  "data": [
+                    {
+                      "id": "deepseek-chat",
+                      "object": "model",
+                      "owned_by": "deepseek"
+                    },
+                    {
+                      "id": "deepseek-reasoner",
+                      "object": "model",
+                      "owned_by": "deepseek"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/user/balance": {
+      "get": {
+        "summary": "Get User Balance",
+        "deprecated": false,
+        "description": "Get user current balance",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "Bearer {{API_KEY}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_available": {
+                      "type": "boolean"
+                    },
+                    "balance_infos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "currency": {
+                            "type": "string"
+                          },
+                          "total_balance": {
+                            "type": "string"
+                          },
+                          "granted_balance": {
+                            "type": "string"
+                          },
+                          "topped_up_balance": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "is_available",
+                    "balance_infos"
+                  ]
+                },
+                "example": {
+                  "is_available": true,
+                  "balance_infos": [
+                    {
+                      "currency": "CNY",
+                      "total_balance": "110.00",
+                      "granted_balance": "10.00",
+                      "topped_up_balance": "100.00"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.deepseek.com/",
+      "description": "Prod Env"
+    }
+  ],
+  "security": []
+}
